@@ -272,7 +272,7 @@ export default function DocumentSummarizer() {
                 try {
                     const formData = new FormData();
                     formData.append('file', file, file.name);
-                    const response = await fetch('http://localhost:3000/api/transcribe', {
+                    const response = await fetch('/api/transcribe', {
                         method: 'POST',
                         body: formData
                     });
@@ -421,7 +421,7 @@ export default function DocumentSummarizer() {
 
     const generateSummaries = async (text) => {
         try {
-            const response = await fetch('http://localhost:3000/api/summarize', {
+            const response = await fetch('/api/summarize', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text })
@@ -444,7 +444,7 @@ export default function DocumentSummarizer() {
         
         setTranslating(true);
         try {
-            const response = await fetch('http://localhost:3000/api/translate', {
+            const response = await fetch('/api/translate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
@@ -743,7 +743,7 @@ ${extractedText.substring(0, 10000)}`
                 { role: 'user', content: userMessage }
             ];
 
-            const response = await fetch('http://localhost:3000/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages })
@@ -784,7 +784,7 @@ ${extractedText.substring(0, 10000)}`
         setActiveView('study');
         try {
             const prompt = `Based on the following document, generate a 5-question multiple-choice quiz to test the reader's knowledge.${previousQuestionsContext}\n\nReturn ONLY valid JSON (no markdown, no preamble). Format exactly like this: [{"question": "What is 2+2?", "options": ["1", "2", "3", "4"], "answer": "4"}, ...]\n\nDocument:\n${extractedText.substring(0, 8000)}`;
-            const response = await fetch('http://localhost:3000/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
@@ -823,7 +823,7 @@ CRITICAL RULES:
 2. ABSOLUTELY NO EMOJIS, NO QUOTES, NO SPECIAL CHARACTERS.
 3. Every single node MUST be enclosed in brackets, e.g. A[Concept One] --> B[Concept Two].
 Return ONLY valid Mermaid code, no markdown backticks, no preamble.\n\nDocument:\n${extractedText.substring(0, 8000)}`;
-            const response = await fetch('http://localhost:3000/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
@@ -867,7 +867,7 @@ Return ONLY valid Mermaid code, no markdown backticks, no preamble.\n\nDocument:
         setIsFlashcardFlipped(false);
         try {
             const prompt = `Based on the following document, generate exactly 10 flashcards for studying. Each card should have a concise TERM on the front and a clear, informative DEFINITION or EXPLANATION on the back. Return ONLY valid JSON array (no markdown, no preamble). Format: [{"front": "Term or Concept", "back": "Definition or Explanation"}]\n\nDocument:\n${extractedText.substring(0, 8000)}`;
-            const response = await fetch('http://localhost:3000/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
@@ -906,7 +906,7 @@ Return ONLY a valid JSON array (no markdown, no preamble). Format exactly like t
 [{"question": "What is...?", "answer": "Detailed answer here..."}]
 
 Document:\n${extractedText.substring(0, 10000)}`;
-            const response = await fetch('http://localhost:3000/api/chat', {
+            const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
